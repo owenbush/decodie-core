@@ -143,6 +143,14 @@ export function resolveReference(
   projectRoot: string,
   cache?: FileContentCache
 ): ReferenceResolution {
+  if (!ref.file) {
+    return {
+      reference: ref,
+      status: 'stale',
+      confidence: 0,
+      message: 'Reference has no file path',
+    };
+  }
   const ownCache = cache ?? new FileContentCache();
   const absolutePath = path.resolve(projectRoot, ref.file);
 
