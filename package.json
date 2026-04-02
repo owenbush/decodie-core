@@ -1,0 +1,17 @@
+{
+  "name": "@owenbush/decodie-core",
+  "version": "0.1.0",
+  "description": "Core data layer for Decodie - types, parser, and reference resolver",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0"
+  }
+}
