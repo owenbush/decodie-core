@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Core data layer for Decodie - types, parser, and reference resolver",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owenbush/decodie-core.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
