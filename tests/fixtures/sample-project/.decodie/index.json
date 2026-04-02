@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "project": "sample-project",
+  "entries": [
+    {
+      "id": "entry-1000-aaa1",
+      "title": "Union types constrain domain values",
+      "experience_level": "intermediate",
+      "topics": ["typescript", "type-system"],
+      "decision_type": "pattern",
+      "session_id": "analyze-2026-04-01-001",
+      "timestamp": "2026-04-01T10:00:00Z",
+      "lifecycle": "active",
+      "references": [{ "file": "src/types.ts", "anchor": "export type Status = 'active' | 'archived'", "anchor_hash": "3917c83a" }],
+      "external_docs": [{ "label": "TS Handbook: Literal Types", "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types" }],
+      "cross_references": [],
+      "content_file": "sessions/analyze-2026-04-01-001.json",
+      "superseded_by": null
+    },
+    {
+      "id": "entry-1000-bbb2",
+      "title": "Repository pattern isolates data access",
+      "experience_level": "advanced",
+      "topics": ["architecture", "patterns"],
+      "decision_type": "rationale",
+      "session_id": "analyze-2026-04-01-001",
+      "timestamp": "2026-04-01T10:05:00Z",
+      "lifecycle": "active",
+      "references": [{ "file": "src/repo.ts", "anchor": "export class UserRepository {", "anchor_hash": "5f283013" }],
+      "external_docs": [],
+      "cross_references": ["entry-1000-aaa1"],
+      "content_file": "sessions/analyze-2026-04-01-001.json",
+      "superseded_by": null
+    },
+    {
+      "id": "entry-1000-ccc3",
+      "title": "Stale reference example",
+      "experience_level": "foundational",
+      "topics": ["testing"],
+      "decision_type": "explanation",
+      "session_id": "analyze-2026-04-01-001",
+      "timestamp": "2026-04-01T10:10:00Z",
+      "lifecycle": "active",
+      "references": [{ "file": "src/deleted-file.ts", "anchor": "function oldFunction() {", "anchor_hash": "6ee079eb" }],
+      "external_docs": [],
+      "cross_references": [],
+      "content_file": "sessions/analyze-2026-04-01-001.json",
+      "superseded_by": null
+    }
+  ]
+}

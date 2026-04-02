@@ -1,0 +1,32 @@
+{
+  "session_id": "analyze-2026-04-01-001",
+  "timestamp_start": "2026-04-01T10:00:00Z",
+  "timestamp_end": "2026-04-01T10:15:00Z",
+  "summary": "Test session",
+  "entries": [
+    {
+      "id": "entry-1000-aaa1",
+      "title": "Union types constrain domain values",
+      "code_snippet": "export type Status = 'active' | 'archived'",
+      "explanation": "Union literal types restrict a value to specific strings.",
+      "alternatives_considered": "Could use an enum, but string literals are simpler.",
+      "key_concepts": ["Union types", "Literal types"]
+    },
+    {
+      "id": "entry-1000-bbb2",
+      "title": "Repository pattern isolates data access",
+      "code_snippet": "export class UserRepository {\n  async findById(id: string) { ... }\n}",
+      "explanation": "The repository pattern abstracts database queries.",
+      "alternatives_considered": "Direct database calls in services.",
+      "key_concepts": ["Repository pattern", "Data access abstraction"]
+    },
+    {
+      "id": "entry-1000-ccc3",
+      "title": "Stale reference example",
+      "code_snippet": "function oldFunction() { return true; }",
+      "explanation": "This function has been deleted.",
+      "alternatives_considered": "N/A",
+      "key_concepts": ["Stale references"]
+    }
+  ]
+}
