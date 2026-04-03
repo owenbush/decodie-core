@@ -41,5 +41,5 @@ npm test
 - [owenbush/decodie](https://github.com/owenbush/decodie) -- Main site and documentation.
 - [owenbush/decodie-skill](https://github.com/owenbush/decodie-skill) -- Claude Code skill that generates `.decodie/` data.
 - [owenbush/decodie-ui](https://github.com/owenbush/decodie-ui) -- Web-based presentation layer.
-- [owenbush/decodie-vscode](https://github.com/owenbush/decodie-vscode) -- VSCode extension with sidebar entry browser and right-click analysis.
+- [owenbush/decodie-vscode](https://github.com/owenbush/decodie-vscode) -- VSCode extension with sidebar entry browser and right-click analysis. [Install from Marketplace](https://marketplace.visualstudio.com/items?itemName=owenbush.decodie-vscode).
 - [owenbush/decodie-ddev](https://github.com/owenbush/decodie-ddev) -- DDEV add-on.
