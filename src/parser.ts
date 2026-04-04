@@ -179,6 +179,9 @@ export class DataParser {
           explanation: sessionEntry.explanation,
           alternatives_considered: sessionEntry.alternatives_considered,
           key_concepts: sessionEntry.key_concepts,
+          breakdowns: sessionEntry.breakdowns,
+          issues: sessionEntry.issues,
+          improvements: sessionEntry.improvements,
         };
       }
     } catch {

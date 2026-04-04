@@ -35,6 +35,23 @@ export interface LearningIndex {
   entries: IndexEntry[];
 }
 
+export interface Breakdown {
+  code_excerpt: string;
+  explanation: string;
+  pattern?: string;
+}
+
+export interface Issue {
+  severity: 'info' | 'warning' | 'error';
+  description: string;
+  suggestion: string;
+}
+
+export interface Improvement {
+  description: string;
+  rationale: string;
+}
+
 export interface SessionEntry {
   id: string;
   title: string;
@@ -42,6 +59,9 @@ export interface SessionEntry {
   explanation: string;
   alternatives_considered: string;
   key_concepts: string[];
+  breakdowns?: Breakdown[];
+  issues?: Issue[];
+  improvements?: Improvement[];
 }
 
 export interface SessionFile {
@@ -87,6 +107,9 @@ export interface FullEntry extends IndexEntry {
   explanation?: string;
   alternatives_considered?: string;
   key_concepts?: string[];
+  breakdowns?: Breakdown[];
+  issues?: Issue[];
+  improvements?: Improvement[];
   reference_resolutions: ReferenceResolution[];
 }
 
