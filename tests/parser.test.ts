@@ -17,7 +17,7 @@ describe('DataParser', () => {
 
       expect(index.version).toBe('1.0');
       expect(index.project).toBe('sample-project');
-      expect(index.entries).toHaveLength(3);
+      expect(index.entries).toHaveLength(4);
 
       const first = index.entries[0];
       expect(first.id).toBe('entry-1000-aaa1');
@@ -66,6 +66,41 @@ describe('DataParser', () => {
 
       // Reference resolutions should be present
       expect(full.reference_resolutions).toHaveLength(1);
+    });
+
+    it('returns breakdowns, issues, improvements for explain entries', () => {
+      const entry = parser.getEntryWithContent('entry-explain-test-001');
+
+      expect(entry.breakdowns).toBeDefined();
+      expect(entry.breakdowns).toHaveLength(1);
+      expect(entry.breakdowns![0].code_excerpt).toBe('return bar(42);');
+      expect(entry.breakdowns![0].explanation).toBe(
+        'Delegates to the bar function with the literal 42.'
+      );
+      expect(entry.breakdowns![0].pattern).toBe('delegation');
+
+      expect(entry.issues).toBeDefined();
+      expect(entry.issues).toHaveLength(1);
+      expect(entry.issues![0].severity).toBe('warning');
+      expect(entry.issues![0].description).toBe(
+        'Magic number 42 is used without explanation'
+      );
+      expect(entry.issues![0].suggestion).toBe('Extract to a named constant');
+
+      expect(entry.improvements).toBeDefined();
+      expect(entry.improvements).toHaveLength(1);
+      expect(entry.improvements![0].description).toBe('Add JSDoc comment');
+      expect(entry.improvements![0].rationale).toBe(
+        'Improves IDE hints and code discoverability'
+      );
+    });
+
+    it('returns undefined breakdowns/issues/improvements for existing entries', () => {
+      const entry = parser.getEntryWithContent('entry-1000-aaa1');
+
+      expect(entry.breakdowns).toBeUndefined();
+      expect(entry.issues).toBeUndefined();
+      expect(entry.improvements).toBeUndefined();
     });
   });
 
