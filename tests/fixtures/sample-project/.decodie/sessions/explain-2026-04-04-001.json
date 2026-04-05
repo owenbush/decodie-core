@@ -1,0 +1,36 @@
+{
+  "session_id": "explain-2026-04-04-001",
+  "timestamp_start": "2026-04-04T10:00:00Z",
+  "timestamp_end": "2026-04-04T10:05:00Z",
+  "summary": "Test explain session",
+  "entries": [
+    {
+      "id": "entry-explain-test-001",
+      "title": "Test explain entry",
+      "code_snippet": "function foo() { return bar(42); }",
+      "explanation": "A simple function that delegates to bar.",
+      "alternatives_considered": "",
+      "key_concepts": ["delegation", "function composition"],
+      "breakdowns": [
+        {
+          "code_excerpt": "return bar(42);",
+          "explanation": "Delegates to the bar function with the literal 42.",
+          "pattern": "delegation"
+        }
+      ],
+      "issues": [
+        {
+          "severity": "warning",
+          "description": "Magic number 42 is used without explanation",
+          "suggestion": "Extract to a named constant"
+        }
+      ],
+      "improvements": [
+        {
+          "description": "Add JSDoc comment",
+          "rationale": "Improves IDE hints and code discoverability"
+        }
+      ]
+    }
+  ]
+}

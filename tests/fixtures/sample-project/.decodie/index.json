@@ -46,6 +46,21 @@
       "cross_references": [],
       "content_file": "sessions/analyze-2026-04-01-001.json",
       "superseded_by": null
+    },
+    {
+      "id": "entry-explain-test-001",
+      "title": "Test explain entry",
+      "experience_level": "intermediate",
+      "topics": ["testing"],
+      "decision_type": "explanation",
+      "session_id": "explain-2026-04-04-001",
+      "timestamp": "2026-04-04T10:00:00Z",
+      "lifecycle": "active",
+      "references": [],
+      "external_docs": [],
+      "cross_references": [],
+      "content_file": "sessions/explain-2026-04-04-001.json",
+      "superseded_by": null
     }
   ]
 }
