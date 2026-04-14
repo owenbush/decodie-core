@@ -44,3 +44,4 @@ npm test
 - [owenbush/decodie-vscode](https://github.com/owenbush/decodie-vscode) -- VSCode extension with sidebar entry browser and right-click analysis. [Install from Marketplace](https://marketplace.visualstudio.com/items?itemName=owenbush.decodie-vscode).
 - [owenbush/decodie-ddev](https://github.com/owenbush/decodie-ddev) -- DDEV add-on.
 - [owenbush/decodie-github-action](https://github.com/owenbush/decodie-github-action) -- GitHub Action for automatic PR analysis. [View on Marketplace](https://github.com/marketplace/actions/decodie-analyze).
+- [owenbush/decodie-github-bot](https://github.com/owenbush/decodie-github-bot) -- Interactive bot for on-demand analysis and explanations in PR comments.
