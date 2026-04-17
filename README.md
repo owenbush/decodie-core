@@ -2,7 +2,7 @@
 
 # Decodie Core
 
-Shared data layer for the [Decodie](https://decodie.owenbush.dev) ecosystem. Provides TypeScript types, a data parser, and a content-based reference resolver used by [decodie-ui](https://github.com/owenbush/decodie-ui) and [decodie-vscode](https://github.com/owenbush/decodie-vscode).
+Shared data layer for the [Decodie](https://decodie.owenbush.dev) ecosystem. Provides TypeScript types, a data parser, and a content-based reference resolver used by [decodie-ui](https://github.com/owenbush/decodie-ui), [decodie-ui-shared](https://github.com/owenbush/decodie-ui-shared), and [decodie-vscode](https://github.com/owenbush/decodie-vscode).
 
 ## What's included
 
