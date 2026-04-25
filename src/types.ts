@@ -25,6 +25,12 @@ export interface IndexEntry {
   cross_references: string[];
   content_file: string;
   superseded_by: string | null;
+  /** File paths this entry references — used for staleness detection */
+  sources?: string[];
+  /** Commit SHA the entry was last verified against */
+  verified_sha?: string;
+  /** True if the entry's referenced files have changed since verification */
+  stale?: boolean;
   // Allow additional properties as schema permits
   [key: string]: unknown;
 }

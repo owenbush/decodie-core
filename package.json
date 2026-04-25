@@ -1,6 +1,6 @@
 {
   "name": "@owenbush/decodie-core",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Core data layer for Decodie - types, parser, and reference resolver",
   "license": "MIT",
   "repository": {
