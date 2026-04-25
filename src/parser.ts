@@ -214,6 +214,9 @@ export class DataParser {
       'superseded_by',
       'external_docs',
       'cross_references',
+      'sources',
+      'verified_sha',
+      'stale',
     ]);
 
     const safeUpdates: Partial<IndexEntry> = {};
