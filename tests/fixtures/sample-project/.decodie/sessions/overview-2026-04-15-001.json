@@ -1,0 +1,17 @@
+{
+  "session_id": "overview-2026-04-15-001",
+  "timestamp_start": "2026-04-15T10:00:00Z",
+  "timestamp_end": "2026-04-15T10:00:30Z",
+  "summary": "Overview of src/ for the sample fixture project.",
+  "entries": [
+    {
+      "id": "entry-overview-test-001",
+      "title": "Overview: src/ — sample TypeScript modules",
+      "decision_type": "overview",
+      "purpose": "A small sample TypeScript surface used for fixture tests. Holds a couple of types and a repository class to exercise reference resolution.",
+      "structure": "Two files: types.ts declares domain types and a Status union; repo.ts holds the UserRepository class.",
+      "entry_points": ["UserRepository.findById(id)", "UserRepository.save(user)"],
+      "dependencies": ["No external dependencies — pure TypeScript."]
+    }
+  ]
+}

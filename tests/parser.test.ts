@@ -17,7 +17,7 @@ describe('DataParser', () => {
 
       expect(index.version).toBe('1.0');
       expect(index.project).toBe('sample-project');
-      expect(index.entries).toHaveLength(4);
+      expect(index.entries).toHaveLength(5);
 
       const first = index.entries[0];
       expect(first.id).toBe('entry-1000-aaa1');
@@ -101,6 +101,29 @@ describe('DataParser', () => {
       expect(entry.breakdowns).toBeUndefined();
       expect(entry.issues).toBeUndefined();
       expect(entry.improvements).toBeUndefined();
+    });
+
+    it('returns purpose/structure/entry_points/dependencies for overview entries', () => {
+      const entry = parser.getEntryWithContent('entry-overview-test-001');
+
+      expect(entry.decision_type).toBe('overview');
+      expect(entry.purpose).toBe(
+        'A small sample TypeScript surface used for fixture tests. Holds a couple of types and a repository class to exercise reference resolution.'
+      );
+      expect(entry.structure).toBe(
+        'Two files: types.ts declares domain types and a Status union; repo.ts holds the UserRepository class.'
+      );
+      expect(entry.entry_points).toEqual([
+        'UserRepository.findById(id)',
+        'UserRepository.save(user)',
+      ]);
+      expect(entry.dependencies).toEqual(['No external dependencies — pure TypeScript.']);
+
+      // Overview entries should NOT have explanation-shape fields populated
+      expect(entry.code_snippet).toBeUndefined();
+      expect(entry.explanation).toBeUndefined();
+      expect(entry.alternatives_considered).toBeUndefined();
+      expect(entry.key_concepts).toBeUndefined();
     });
   });
 

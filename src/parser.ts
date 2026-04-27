@@ -174,15 +174,24 @@ export class DataParser {
       const session = this.loadSession(indexEntry.session_id);
       const sessionEntry = session.entries.find((e) => e.id === entryId);
       if (sessionEntry) {
-        sessionContent = {
-          code_snippet: sessionEntry.code_snippet,
-          explanation: sessionEntry.explanation,
-          alternatives_considered: sessionEntry.alternatives_considered,
-          key_concepts: sessionEntry.key_concepts,
-          breakdowns: sessionEntry.breakdowns,
-          issues: sessionEntry.issues,
-          improvements: sessionEntry.improvements,
-        };
+        if (sessionEntry.decision_type === 'overview') {
+          sessionContent = {
+            purpose: sessionEntry.purpose,
+            structure: sessionEntry.structure,
+            entry_points: sessionEntry.entry_points,
+            dependencies: sessionEntry.dependencies,
+          };
+        } else {
+          sessionContent = {
+            code_snippet: sessionEntry.code_snippet,
+            explanation: sessionEntry.explanation,
+            alternatives_considered: sessionEntry.alternatives_considered,
+            key_concepts: sessionEntry.key_concepts,
+            breakdowns: sessionEntry.breakdowns,
+            issues: sessionEntry.issues,
+            improvements: sessionEntry.improvements,
+          };
+        }
       }
     } catch {
       // Session file missing or malformed — continue without content
