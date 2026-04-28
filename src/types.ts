@@ -11,12 +11,20 @@ export interface ExternalDoc {
   url: string;
 }
 
+export type DecisionType =
+  | 'explanation'
+  | 'rationale'
+  | 'pattern'
+  | 'warning'
+  | 'convention'
+  | 'overview';
+
 export interface IndexEntry {
   id: string;
   title: string;
   experience_level: 'foundational' | 'intermediate' | 'advanced' | 'ecosystem';
   topics: string[];
-  decision_type: 'explanation' | 'rationale' | 'pattern' | 'warning' | 'convention';
+  decision_type: DecisionType;
   session_id: string;
   timestamp: string;
   lifecycle: 'active' | 'archived' | 'superseded';
@@ -58,17 +66,33 @@ export interface Improvement {
   rationale: string;
 }
 
-export interface SessionEntry {
+interface BaseSessionEntry {
   id: string;
   title: string;
-  code_snippet: string;
-  explanation: string;
-  alternatives_considered: string;
-  key_concepts: string[];
   breakdowns?: Breakdown[];
   issues?: Issue[];
   improvements?: Improvement[];
 }
+
+/** Default session-entry shape for explanation/rationale/pattern/warning/convention kinds. */
+export interface ExplanationSessionEntry extends BaseSessionEntry {
+  decision_type?: Exclude<DecisionType, 'overview'>;
+  code_snippet: string;
+  explanation: string;
+  alternatives_considered: string;
+  key_concepts: string[];
+}
+
+/** Session-entry shape for overview kind — discriminated by `decision_type === 'overview'`. */
+export interface OverviewSessionEntry extends BaseSessionEntry {
+  decision_type: 'overview';
+  purpose: string;
+  structure: string;
+  entry_points?: string[];
+  dependencies?: string[];
+}
+
+export type SessionEntry = ExplanationSessionEntry | OverviewSessionEntry;
 
 export interface SessionFile {
   session_id: string;
@@ -116,6 +140,14 @@ export interface FullEntry extends IndexEntry {
   breakdowns?: Breakdown[];
   issues?: Issue[];
   improvements?: Improvement[];
+  /** Overview-shape: what the target code is for. */
+  purpose?: string;
+  /** Overview-shape: how the target code is organized. */
+  structure?: string;
+  /** Overview-shape: callable surfaces a developer would interact with. */
+  entry_points?: string[];
+  /** Overview-shape: notable internal or external dependencies. */
+  dependencies?: string[];
   reference_resolutions: ReferenceResolution[];
 }
 

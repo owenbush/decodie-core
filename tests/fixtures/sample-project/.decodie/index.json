@@ -61,6 +61,22 @@
       "cross_references": [],
       "content_file": "sessions/explain-2026-04-04-001.json",
       "superseded_by": null
+    },
+    {
+      "id": "entry-overview-test-001",
+      "title": "Overview: src/ — sample TypeScript modules",
+      "experience_level": "foundational",
+      "topics": ["typescript", "overview"],
+      "decision_type": "overview",
+      "session_id": "overview-2026-04-15-001",
+      "timestamp": "2026-04-15T10:00:00Z",
+      "lifecycle": "active",
+      "references": [],
+      "external_docs": [],
+      "cross_references": [],
+      "content_file": "sessions/overview-2026-04-15-001.json",
+      "superseded_by": null,
+      "sources": ["src/"]
     }
   ]
 }
