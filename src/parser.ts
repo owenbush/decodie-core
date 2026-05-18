@@ -10,7 +10,6 @@ import {
 import { resolveAllReferences, resolveReference } from './reference-resolver';
 
 const DEFAULT_CONFIG: Config = {
-  user_experience_level: 'intermediate',
   preferred_topics: [],
   excluded_topics: [],
   archival_threshold_days: 90,

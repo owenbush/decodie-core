@@ -103,7 +103,6 @@ export interface SessionFile {
 }
 
 export interface Config {
-  user_experience_level: 'foundational' | 'intermediate' | 'advanced' | 'ecosystem';
   preferred_topics: string[];
   excluded_topics: string[];
   archival_threshold_days: number;

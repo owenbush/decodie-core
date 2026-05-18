@@ -131,7 +131,6 @@ describe('DataParser', () => {
     it('returns defaults when no config.json exists', () => {
       const config = parser.loadConfig();
 
-      expect(config.user_experience_level).toBe('intermediate');
       expect(config.preferred_topics).toEqual([]);
       expect(config.archival_threshold_days).toBe(90);
       expect(config.auto_suggest_archival).toBe(true);
