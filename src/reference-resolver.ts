@@ -5,7 +5,7 @@ import { Reference, ReferenceResolution, IndexEntry } from './types';
 
 const SKIP_DIRS = new Set([
   'node_modules', '.git', 'dist', 'build', '.decodie',
-  '.next', '.nuxt', 'coverage', '.cache', '__pycache__',
+  '.next', '.nuxt', 'coverage', '.cache', '__pycache__', 'vendor',
 ]);
 
 function computeAnchorHash(anchor: string): string {
@@ -58,34 +58,74 @@ function collectFiles(dir: string, ext: string, results: string[] = []): string[
   return results;
 }
 
-/** Cache for file contents within a single resolution pass. */
-class FileContentCache {
-  private cache = new Map<string, string | null>();
+/**
+ * A file's text. Lines are split and whitespace-stripped on first use, so a file
+ * searched for many anchors is only processed once.
+ */
+class SourceText {
+  private splitLines: string[] | null = null;
+  private stripped: string[] | null = null;
 
-  read(filePath: string): string | null {
+  constructor(readonly content: string) {}
+
+  get lines(): string[] {
+    if (this.splitLines === null) {
+      this.splitLines = this.content.split('\n');
+    }
+    return this.splitLines;
+  }
+
+  get strippedLines(): string[] {
+    if (this.stripped === null) {
+      this.stripped = this.lines.map(stripWhitespace);
+    }
+    return this.stripped;
+  }
+}
+
+/** Cache for file contents and project file listings within a single resolution pass. */
+class FileContentCache {
+  private cache = new Map<string, SourceText | null>();
+  private fileLists = new Map<string, string[]>();
+
+  read(filePath: string): SourceText | null {
     if (this.cache.has(filePath)) {
       return this.cache.get(filePath)!;
     }
     try {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      this.cache.set(filePath, content);
-      return content;
+      const text = new SourceText(fs.readFileSync(filePath, 'utf-8'));
+      this.cache.set(filePath, text);
+      return text;
     } catch {
       this.cache.set(filePath, null);
       return null;
     }
   }
 
+  /** All files with the given extension under projectRoot, walked once per pass. */
+  files(projectRoot: string, ext: string): string[] {
+    const key = `${projectRoot}\0${ext}`;
+    let files = this.fileLists.get(key);
+    if (!files) {
+      files = collectFiles(projectRoot, ext);
+      this.fileLists.set(key, files);
+    }
+    return files;
+  }
+
   clear(): void {
     this.cache.clear();
+    this.fileLists.clear();
   }
 }
 
 /**
  * Search for an anchor in file content. Returns the 1-based line number or -1.
  */
-function findAnchorLine(content: string, anchor: string): number {
-  const lines = content.split('\n');
+function findAnchorLine(text: SourceText, anchor: string): number {
+  // Most files searched during drift detection don't contain the anchor at all.
+  if (!text.content.includes(anchor)) return -1;
+  const lines = text.lines;
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].includes(anchor)) {
       return i + 1;
@@ -100,22 +140,22 @@ function findAnchorLine(content: string, anchor: string): number {
  * Returns { line, confidence } or null.
  */
 function fuzzyFindAnchor(
-  content: string,
+  text: SourceText,
   anchor: string
 ): { line: number; confidence: number } | null {
-  const lines = content.split('\n');
+  const strippedLines = text.strippedLines;
   const strippedAnchor = stripWhitespace(anchor);
 
   // Pass 1: whitespace-insensitive match
-  for (let i = 0; i < lines.length; i++) {
-    if (stripWhitespace(lines[i]) === strippedAnchor) {
+  for (let i = 0; i < strippedLines.length; i++) {
+    if (strippedLines[i] === strippedAnchor) {
       return { line: i + 1, confidence: 0.9 };
     }
   }
 
   // Pass 2: substring match after stripping whitespace
-  for (let i = 0; i < lines.length; i++) {
-    const strippedLine = stripWhitespace(lines[i]);
+  for (let i = 0; i < strippedLines.length; i++) {
+    const strippedLine = strippedLines[i];
     if (strippedLine.includes(strippedAnchor) || strippedAnchor.includes(strippedLine)) {
       if (strippedLine.length > 5) {
         return { line: i + 1, confidence: 0.7 };
@@ -123,12 +163,13 @@ function fuzzyFindAnchor(
     }
   }
 
-  // Pass 3: identifier match
+  // Pass 3: identifier match. A whole-word match implies a substring match,
+  // so files without the identifier can be skipped before testing each line.
   const identifier = extractIdentifier(anchor);
-  if (identifier) {
+  if (identifier && text.content.includes(identifier)) {
+    const lines = text.lines;
+    const re = new RegExp(`\\b${identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
     for (let i = 0; i < lines.length; i++) {
-      // Match whole word
-      const re = new RegExp(`\\b${identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
       if (re.test(lines[i])) {
         return { line: i + 1, confidence: 0.5 };
       }
@@ -199,7 +240,7 @@ export function resolveReference(
   // Step 2: File doesn't exist or anchor not found — search other files (drifted check)
   const ext = path.extname(ref.file);
   if (ext) {
-    const candidates = collectFiles(projectRoot, ext);
+    const candidates = ownCache.files(projectRoot, ext);
     for (const candidate of candidates) {
       if (candidate === absolutePath) continue;
       const candidateContent = ownCache.read(candidate);
